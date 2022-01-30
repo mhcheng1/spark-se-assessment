@@ -26,7 +26,8 @@ app_settings = os.getenv(
     'APP_SETTINGS',
     'project.server.config.DevelopmentConfig'
 )
-app.config.from_object(app_settings)
+app.config.from_pyfile('config.py')
+
 
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
