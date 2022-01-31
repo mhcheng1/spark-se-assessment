@@ -56,5 +56,8 @@ class User(db.Model):
         except jwt.InvalidTokenError:
             return 'Invalid token. Please log in again.'
 
-db.create_all()
+try:
+    db.create_all()
+except:
+    print('db is created already')
 db.session.commit()
