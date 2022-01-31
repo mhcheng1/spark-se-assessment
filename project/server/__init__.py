@@ -39,7 +39,7 @@ migrate = Migrate(app, db)
 
 @app.route("/")
 def root_site():
-    return "<p>It works!</p>"
+    return "<h1>Flask JWT</h1><p>routes: /users/index -> view of all users in db</p><p>/auth/register  -> post method for email and password</p>"
 
 from project.server.auth.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
