@@ -10,13 +10,23 @@ class RegisterAPI(MethodView):
     """
     User Registration Resource
     """
-
+    # retrieve info of current users in the db
     def get(self):
-        responseObject = {
-            'status': 'success',
-            'message': 'Request successful but please send an HTTP POST request to register the user.'
-        }
-        return make_response(jsonify(responseObject)), 201
+        # return make_response(jsonify(responseObject)), 201 
+        ql = User.query.all()
+        resultArr = []
+        for i in ql:
+            result = ""
+            result += i.email + i.password
+            responseObject = {
+                'admin': i.admin,
+                'email': i.email,
+                'id': i.id,
+                'registered_on': i.registered_on,
+            }
+            resultArr.append(responseObject)
+        string = 'Users: ' + ','.join(str(x) for x in resultArr)
+        return string
 
     def post(self):
         # get the post data
@@ -44,9 +54,10 @@ class RegisterAPI(MethodView):
             except Exception as e:
                 responseObject = {
                     'status': 'fail',
-                    'message': 'Some error occurred. Please try again.'
+                    'message': 'Some error occurred. Please try again.',
                 }
-                return make_response(jsonify(responseObject)), 401
+                # return make_response(jsonify(responseObject)), 401
+                return e
         else:
             responseObject = {
                 'status': 'fail',
@@ -63,4 +74,10 @@ auth_blueprint.add_url_rule(
     '/auth/register',
     view_func=registration_view,
     methods=['POST', 'GET']
+)
+
+auth_blueprint.add_url_rule(
+    '/users/index',
+    view_func=registration_view,
+    methods=['GET']
 )

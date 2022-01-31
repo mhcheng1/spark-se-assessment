@@ -26,6 +26,8 @@ app_settings = os.getenv(
     'APP_SETTINGS',
     'project.server.config.DevelopmentConfig'
 )
+
+# change config setting
 app.config.from_pyfile('config.py')
 
 
