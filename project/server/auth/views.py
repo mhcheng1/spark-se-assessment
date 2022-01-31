@@ -6,15 +6,14 @@ from project.server.models import User
 
 auth_blueprint = Blueprint('auth', __name__)
 
-
-class RegisterAPI(MethodView):
+class ViewAPI(MethodView):
     """
     User Registration Resource
     """
     # retrieve info of current users in the db
 
     def get(self):
-        # return make_response(jsonify(responseObject)), 201
+    # retrieve info of current users in the db
         ql = User.query.all()
         resultArr = []
         for i in ql:
@@ -22,11 +21,22 @@ class RegisterAPI(MethodView):
                 'admin': i.admin,
                 'email': i.email,
                 'id': i.id,
-                'registered_on': i.registered_on.strftime("%c, %Z"),
+                'registered_on': i.registered_on.strftime("%c"),
             }
             resultArr.append(responseObject)
         string = 'Users: ' + ','.join(str(x) for x in resultArr)
         return string
+
+class RegisterAPI(MethodView):
+    """
+    User Registration Resource
+    """
+    def get(self):
+        responseObject = {
+            'status': 'success',
+            'message': 'Request successful but please send an HTTP POST request to register the user.'
+        }
+        return make_response(jsonify(responseObject)), 201
 
     def post(self):
         # get the post data
@@ -69,6 +79,8 @@ class RegisterAPI(MethodView):
 
 # define the API resources
 registration_view = RegisterAPI.as_view('register_api')
+api_view = ViewAPI.as_view('view_api')
+
 
 # add Rules for API Endpoints
 auth_blueprint.add_url_rule(
@@ -79,6 +91,6 @@ auth_blueprint.add_url_rule(
 
 auth_blueprint.add_url_rule(
     '/users/index',
-    view_func=registration_view,
+    view_func=api_view,
     methods=['GET']
 )
