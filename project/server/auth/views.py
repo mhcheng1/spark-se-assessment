@@ -18,13 +18,11 @@ class RegisterAPI(MethodView):
         ql = User.query.all()
         resultArr = []
         for i in ql:
-            result = ""
-            result += i.email + i.password
             responseObject = {
                 'admin': i.admin,
                 'email': i.email,
                 'id': i.id,
-                'registered_on': i.registered_on,
+                'registered_on': i.registered_on.strftime("%c, %Z"),
             }
             resultArr.append(responseObject)
         string = 'Users: ' + ','.join(str(x) for x in resultArr)
