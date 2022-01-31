@@ -56,8 +56,7 @@ class RegisterAPI(MethodView):
                     'status': 'fail',
                     'message': 'Some error occurred. Please try again.',
                 }
-                # return make_response(jsonify(responseObject)), 401
-                return e
+                return make_response(jsonify(responseObject)), 401
         else:
             responseObject = {
                 'status': 'fail',
